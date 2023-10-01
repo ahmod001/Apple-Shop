@@ -13,7 +13,25 @@ return new class extends Migration
     {
         Schema::create('invoice_products', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+
+            $table->unsignedBigInteger('invoice_id');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('user_id');
+
+            $table->string('quantity',50);
+            $table->string('sale_price',50);
+
+            $table->foreign('product_id')->references('id')->on('products')
+                ->restrictOnDelete()->cascadeOnUpdate();
+
+                $table->foreign('user_id')->references('id')->on('users')
+                ->restrictOnDelete()->cascadeOnUpdate();
+
+                $table->foreign('invoice_id')->references('id')->on('invoices')
+                ->restrictOnDelete()->cascadeOnUpdate();
+
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

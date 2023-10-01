@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            
+            $table->string('category_name', 50);
+            $table->string('category_img', 300);
+
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('product_sliders', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+          
+            $table->string('title', 200);
+            $table->string('short_description', 500);
+            $table->string('price', 50);
+            $table->string('img', 200);
+
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products')
+                ->restrictOnDelete()->cascadeOnDelete();
+
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
