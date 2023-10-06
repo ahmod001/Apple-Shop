@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sslcommerz_accounts', function (Blueprint $table) {
             $table->id();
+
             $table->string('store_id');
             $table->string('store_password');
             $table->string('currency');

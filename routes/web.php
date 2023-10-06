@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ProductCartController;
 use App\Http\Controllers\ProductController;
@@ -11,6 +13,16 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\VerifyTokenMiddleware;
 use Illuminate\Support\Facades\Route;
 
+
+
+//_           PAGE Routes         _//
+
+Route::controller(PageController::class)->group(function () {
+    Route::get('/', 'homePage');
+    Route::get('/by-category', 'productByCategoryPage');
+    Route::get('/by-brand', 'productByBrandPage');
+    Route::get('/products/product-details', 'productDetailsPage');
+});
 
 
 //_           API Routes         _//
@@ -59,4 +71,16 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(ProfileController::class)->group(function () {
     Route::post('/create-update-profile', 'createUpdateProfile')->middleware(VerifyTokenMiddleware::class);
     Route::get('/profile-details', 'profileDetails')->middleware(VerifyTokenMiddleware::class);
+});
+
+// Invoice
+Route::controller(InvoiceController::class)->group(function () {
+    Route::post('/create-invoice', 'createInvoice')->middleware(VerifyTokenMiddleware::class);
+    Route::get('/invoice-list', 'invoiceList')->middleware(VerifyTokenMiddleware::class);
+    Route::get('/invoice-product-list/{invoiceId}', 'invoiceProductList')->middleware(VerifyTokenMiddleware::class);
+
+    // Payment
+    Route::post('/payment-success', 'paymentSuccess');
+    Route::post('/payment-fail', 'paymentFail');
+    Route::post('/payment-cancel', 'paymentCancel');
 });
